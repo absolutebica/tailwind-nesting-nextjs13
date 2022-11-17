@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "concurrently \"next dev\" \"tailwindcss --input ./styles/main.css --output ./styles/style.css --watch\"",
+    "build": "tailwindcss ./styles/main.css --output ./styles/style.css && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "daisyui": "^2.41.0",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
     "next": "13.0.3",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "concurrently": "^7.5.0",
     "postcss": "^8.4.19",
     "postcss-import": "^15.0.0"
   }

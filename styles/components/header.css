@@ -1,7 +1,15 @@
 header {
-    @apply bg-slate-50;
+    @apply flex justify-between bg-gray-900 items-center;
 
-    & > nav {
-        @apply relative;
+    .navbar {
+        @apply px-4;
+    }
+
+    & nav .menu a {
+        @apply text-white;
+
+        & + ul li a {
+            @apply text-gray-800 p-1 block;
+        }
     }
 }

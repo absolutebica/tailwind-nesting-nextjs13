@@ -1,0 +1,3 @@
+.container-content {
+    @apply container mx-auto p-5;
+}

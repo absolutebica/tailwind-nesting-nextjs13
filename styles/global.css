@@ -1,7 +1,30 @@
 html, body {
-    @apply h-fill w-fill;
+    @apply bg-neutral h-full;
+}
+
+h1 {
+    @apply text-2xl font-semibold mb-3;
+}
+
+h1:has(+ h2) {
+    @apply mb-1;
+}
+
+h2 {
+    @apply text-base font-medium mb-3;
+}
+
+#__next {
+    @apply h-full;
+}
+
+div.theme-wrapper[theme-data] {
+    @apply flex flex-col justify-between h-full;
 }
 
 main {
-    @apply h-fill w-fill bg-slate-200;
+    @apply flex-auto;
+}
+footer {
+    @apply bg-secondary p-5;
 }
