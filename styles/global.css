@@ -1,0 +1,7 @@
+html, body {
+    @apply h-fill w-fill;
+}
+
+main {
+    @apply h-fill w-fill bg-slate-200;
+}

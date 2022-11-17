@@ -1,0 +1,7 @@
+header nav {
+    @apply bg-slate-50;
+
+    & > nav {
+        @apply relative;
+    }
+}
