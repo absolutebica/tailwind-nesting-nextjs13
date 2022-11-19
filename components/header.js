@@ -16,6 +16,9 @@ export default function Header() {
                             <li><Link href="/about/facilities-distribution">Facilities &amp; Distribution</Link></li>
                         </ul>
                     </li>
+                    <li>
+                        <Link href="/recipes">Recipes</Link>
+                    </li>
                     </ul>
                 </nav>
             </div>
