@@ -1,35 +1,18 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
-import useSWR from 'swr'
 
-const fetcher = async (url) => {
-  const res = await fetch(url)
-  const data = await res.json()
+const RECIPE_API_POST_PATH = 'https://api.martinbros.com/public/api/culinary-recipes/recipe/';
 
-  if (res.status !== 200) {
-    throw new Error(data.message)
-  }
-  return data
-}
+export default function RecipeDetail({recipe}) {
+  if (!recipe) return <div>Loading...</div>
 
-export default function RecipeDetail() {
-  const { query } = useRouter()
-  const { data, error } = useSWR(
-    () => query.id && `https://api.martinbros.com/public/api/culinary-recipes/recipe/${query.id}`,
-    fetcher
-  )
-
-  if (error) return <div>{error.message}</div>
-  if (!data) return <div>Loading...</div>
-
-  const keywords = Object.keys(data.recipeKeywords).map((keyword) => data.recipeKeywords[keyword].recipeKeyword).join(", ");
+  const keywords = Object.keys(recipe.recipeKeywords).map((keyword) => recipe.recipeKeywords[keyword].recipeKeyword).join(", ");
 
   return (
     <>
     <Head>
-        <title>MB - Beef Recipes - {data.recipeName}</title>
-        <meta name="description" content={`Description for ${data.recipeName}`} />
+        <title>MB - Beef Recipes - {recipe.recipeName}</title>
+        <meta name="description" content={`Description for ${recipe.recipeName}`} />
         <meta name="keywords" content={keywords} />
     </Head>
 
@@ -39,18 +22,43 @@ export default function RecipeDetail() {
             <Image 
                 width={500}
                 height={500}
-                    src={`https://cdn.martinbros.com/culinaryrecipes/${data.recipePhoto}`} 
-                    alt={data.recipeName} 
+                    src={`https://cdn.martinbros.com/culinaryrecipes/${recipe.recipePhoto}`} 
+                    alt={recipe.recipeName} 
                 />
             </div>
             <div>
-                <h1>{data.recipeName}</h1>
+                <h1>{recipe.recipeName}</h1>
                 <p><strong>Keywords:</strong> {keywords}</p>
-                <p>Added: {data.date}</p>
-                <div dangerouslySetInnerHTML={{ __html: data.recipeDescription }}></div>
+                <p>Added: {recipe.date}</p>
+                <div dangerouslySetInnerHTML={{ __html: recipe.recipeDescription }}></div>
             </div>
         </div>
     </div>
     </>
   )
+}
+
+export async function getServerSideProps({params, res}) {
+  res.setHeader(
+      'Cache-Control',
+      'public, s-maxage=10, state-while-revalidate=59'
+  )
+  
+  const response = await fetch(`${RECIPE_API_POST_PATH}${params.id}`);
+  const recipe = await response.json();
+
+  if (!recipe) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false
+      }
+    }
+  }
+
+  return {
+      props: {
+          recipe
+      }
+  }
 }

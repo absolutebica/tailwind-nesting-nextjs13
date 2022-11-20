@@ -1,3 +1,17 @@
 .container-content {
     @apply container mx-auto p-5;
 }
+
+.card {
+    @apply rounded;
+
+    & img {
+        @apply scale-100 transition ease-in-out duration-700;
+    }
+
+    &:hover img {
+        @apply scale-110;
+    }
+
+
+}
